@@ -5,6 +5,7 @@ import { UserModule } from 'src/user/user.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { LocalStrategy } from './strategy/auth.stratery';
+import { JwtStrategy } from './strategy/jwt.strategy';
 
 const jwtFactory = {
   imports: [ConfigModule.forRoot()],
@@ -18,8 +19,8 @@ const jwtFactory = {
 };
 
 @Module({
-  imports: [UserModule, JwtModule.registerAsync(jwtFactory)],
+  imports: [UserModule, ConfigModule, JwtModule.registerAsync(jwtFactory)],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy],
+  providers: [AuthService, LocalStrategy, JwtStrategy],
 })
 export class AuthModule {}
