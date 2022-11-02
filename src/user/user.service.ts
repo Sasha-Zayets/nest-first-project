@@ -14,7 +14,7 @@ export class UserService {
     });
   }
 
-  async findByUserName(userName: string) {
-    return this.userModel.findOne({ username: userName });
+  async findByUserEmail(email: string) {
+    return this.userModel.findOne({ email });
   }
 }

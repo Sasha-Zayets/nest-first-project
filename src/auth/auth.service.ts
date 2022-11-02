@@ -10,8 +10,8 @@ export class AuthService {
     private userService: UserService,
   ) {}
 
-  async validateUser(username: string, password: string) {
-    const user = await this.userService.findByUserName(username);
+  async validateUser(email: string, password: string) {
+    const user = await this.userService.findByUserEmail(email);
     if (!user) {
       throw new NotAcceptableException('could not find the user');
     }
@@ -25,7 +25,7 @@ export class AuthService {
   }
 
   async login(user: any) {
-    const payload = { username: user.username, sub: user._id };
+    const payload = { emain: user.username, sub: user._id };
     return {
       access_token: this.jwtService.sign(payload),
     };
