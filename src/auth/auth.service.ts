@@ -1,6 +1,7 @@
 import { Injectable, NotAcceptableException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 import { UserService } from 'src/user/user.service';
 
 @Injectable()
@@ -8,6 +9,7 @@ export class AuthService {
   constructor(
     private jwtService: JwtService,
     private userService: UserService,
+    private configService: ConfigService,
   ) {}
 
   async validateUser(email: string, password: string) {
@@ -24,10 +26,16 @@ export class AuthService {
     return user;
   }
 
-  async login(user: any) {
-    const payload = { emain: user.username, sub: user._id };
+  async login(email: string, password: string) {
+    const user = await this.validateUser(email, password);
+
+    const secretKey = this.configService.get('JWT_SECRET');
+    const expiresIn = this.configService.get('JWT_EXP_H');
     return {
-      access_token: this.jwtService.sign(payload),
+      access_token: this.jwtService.sign(
+        { email, _id: user._id },
+        { secret: secretKey, expiresIn },
+      ),
     };
   }
 }

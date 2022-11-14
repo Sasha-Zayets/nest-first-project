@@ -20,13 +20,13 @@ export class AuthController {
     private userService: UserService,
   ) {}
 
-  @UseGuards(AuthGuard('local'))
   @Post('login')
-  async login(@Request() req) {
-    return this.authService.login(req.user);
+  async login(@Body('user') user: SignupDto) {
+    const { password, email } = user;
+    return this.authService.login(email, password);
   }
 
-  @Post('/signup')
+  @Post('signup')
   async createUser(@Body('user') user: SignupDto) {
     const saltOrRounds = 10;
     const { password, email } = user;
