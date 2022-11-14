@@ -12,6 +12,7 @@ import { TasksService } from './tasks.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CreateTaskDto } from './dto/create.task.dto';
 import { UpdateTaskDto } from './dto/edit.task.dto';
+import IdMongoDbParams from 'src/utils/validation/idMongoDbParams';
 
 @Controller('tasks')
 export class TasksController {
@@ -19,7 +20,7 @@ export class TasksController {
 
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  async getTaskById(@Param('id') id: string) {
+  async getTaskById(@Param() { id }: IdMongoDbParams) {
     return this.tasksService.getTaskById(id);
   }
 
@@ -32,13 +33,16 @@ export class TasksController {
 
   @UseGuards(JwtAuthGuard)
   @Put(':id')
-  async updateTask(@Param('id') id: string, @Body() task: UpdateTaskDto) {
+  async updateTask(
+    @Param() { id }: IdMongoDbParams,
+    @Body() task: UpdateTaskDto,
+  ) {
     return this.tasksService.updateTask(id, task);
   }
 
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  async removeTask(@Param('id') id: string) {
+  async removeTask(@Param() { id }: IdMongoDbParams) {
     return this.tasksService.removeTask(id);
   }
 
