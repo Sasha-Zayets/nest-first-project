@@ -9,8 +9,9 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
-import { CreateTaskDto, UpdateTaskDto } from './dto/task.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { CreateTaskDto } from './dto/create.task.dto';
+import { UpdateTaskDto } from './dto/edit.task.dto';
 
 @Controller('tasks')
 export class TasksController {
@@ -25,6 +26,7 @@ export class TasksController {
   @UseGuards(JwtAuthGuard)
   @Post('')
   async createTask(@Body() task: CreateTaskDto) {
+    console.log('Task created', task);
     return this.tasksService.createTask(task);
   }
 
@@ -41,7 +43,7 @@ export class TasksController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('all')
+  @Get('')
   async getAllTasks() {
     return this.tasksService.getAllTasks();
   }
