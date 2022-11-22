@@ -2,17 +2,16 @@ import * as bcrypt from 'bcrypt';
 import {
   Controller,
   Post,
-  UseGuards,
-  Request,
   Body,
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
+import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { UserService } from 'src/user/user.service';
 import { SignupDto } from './dto/signup.dto';
 
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(
