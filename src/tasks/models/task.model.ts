@@ -10,7 +10,6 @@ export type TaskDocument = Task & Document;
 @ObjectType()
 @Schema()
 export class Task {
-  @Prop({ type: mongoose.Schema.Types.ObjectId })
   _id: string;
 
   @Field()
