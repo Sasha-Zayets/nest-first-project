@@ -6,6 +6,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { TasksModule } from './tasks/tasks.module';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
@@ -25,6 +26,8 @@ import { TasksModule } from './tasks/tasks.module';
       driver: ApolloDriver,
       autoSchemaFile: 'schema.gql',
     }),
+    ChatModule,
   ],
+  providers: [],
 })
 export class AppModule {}
