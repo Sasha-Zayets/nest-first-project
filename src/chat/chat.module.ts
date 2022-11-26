@@ -4,10 +4,16 @@ import { ChatGateway } from './chat.gateway';
 import { ChatService } from './chat.service';
 import { ChatSchema } from './models/chat.model';
 import { ChatController } from './chat.controller';
+import { AuthorGuard } from './author.guard';
+import { CHAT_DOCUMENT_NAME } from './chat.constants';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: 'chats', schema: ChatSchema }])],
+  imports: [
+    MongooseModule.forFeature([
+      { name: CHAT_DOCUMENT_NAME, schema: ChatSchema },
+    ]),
+  ],
   controllers: [ChatController],
-  providers: [ChatService, ChatGateway],
+  providers: [ChatService, AuthorGuard, ChatGateway],
 })
 export class ChatModule {}

@@ -3,6 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { Field, ObjectType } from '@nestjs/graphql';
+import { IdDoc } from 'src/common/types/global.types';
 
 export type UserDocument = User & Document;
 
@@ -10,7 +11,7 @@ export type UserDocument = User & Document;
 @Schema()
 export class User {
   @Prop({ type: mongoose.Schema.Types.ObjectId })
-  _id: string;
+  _id: IdDoc;
 
   @Field()
   @ApiProperty()

@@ -5,10 +5,13 @@ import { User } from 'src/user/user.model';
 import { CreateTaskDto } from './dto/create.task.dto';
 import { UpdateTaskDto } from './dto/edit.task.dto';
 import { TaskDocument, Task } from './models/task.model';
+import { TASKS_DOCUMENT_NAME } from './tasks.constants';
 
 @Injectable()
 export class TasksService {
-  constructor(@InjectModel('tasks') private taskModel: Model<TaskDocument>) {}
+  constructor(
+    @InjectModel(TASKS_DOCUMENT_NAME) private taskModel: Model<TaskDocument>,
+  ) {}
 
   async getTaskById(id: string): Promise<Task> {
     return this.taskModel.findById(id);

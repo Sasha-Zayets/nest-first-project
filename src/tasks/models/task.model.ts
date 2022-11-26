@@ -3,15 +3,15 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ObjectType, Field } from '@nestjs/graphql';
 import { Document } from 'mongoose';
-import { User } from 'src/user/user.model';
 import { USER_DOCUMENT_NAME } from 'src/user/user.constants';
+import { IdDoc } from 'src/common/types/global.types';
 
 export type TaskDocument = Task & Document;
 
 @ObjectType()
 @Schema()
 export class Task {
-  _id: string;
+  _id: IdDoc;
 
   @Field()
   @ApiProperty()
@@ -24,7 +24,7 @@ export class Task {
     required: true,
     ref: USER_DOCUMENT_NAME,
   })
-  user: User;
+  user: IdDoc;
 
   @Field()
   @ApiProperty()

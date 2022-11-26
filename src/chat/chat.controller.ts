@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { RequestWithUser } from 'src/user/types/requestWithUser.interface';
+import { AuthorGuard } from './author.guard';
 import { ChatService } from './chat.service';
 import { CreateChatDto } from './dto/create.chat.dto';
 import { UpdateChatDto } from './dto/update.chat.dto';
@@ -20,28 +21,25 @@ export class ChatController {
   constructor(private readonly chatService: ChatService) {}
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, AuthorGuard)
   async getChat(@Param('id') id: string) {
     return this.chatService.getChatById(id);
   }
 
   @Post()
   @UseGuards(JwtAuthGuard)
-  async createChat(
-    @Body('chat') chat: CreateChatDto,
-    @Req() req: RequestWithUser,
-  ) {
+  async createChat(@Body() chat: CreateChatDto, @Req() req: RequestWithUser) {
     return this.chatService.createChat(chat, req.user);
   }
 
   @Put(':id')
-  @UseGuards(JwtAuthGuard)
-  async updateChat(@Body('chat') chat: UpdateChatDto, @Param('id') id: string) {
+  @UseGuards(JwtAuthGuard, AuthorGuard)
+  async updateChat(@Body() chat: UpdateChatDto, @Param('id') id: string) {
     return this.chatService.updateChat(id, chat);
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, AuthorGuard)
   async removeChat(@Param('id') id: string) {
     return this.chatService.removeChat(id);
   }
