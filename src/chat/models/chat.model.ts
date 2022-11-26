@@ -22,7 +22,7 @@ export class Chat {
   author: IdDoc;
 
   @Prop({ type: Array, required: true })
-  users: User[];
+  users: IdDoc[];
 }
 
 export const ChatSchema = SchemaFactory.createForClass(Chat);

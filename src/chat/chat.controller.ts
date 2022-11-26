@@ -43,4 +43,17 @@ export class ChatController {
   async removeChat(@Param('id') id: string) {
     return this.chatService.removeChat(id);
   }
+
+  @Post(':id/users')
+  async addUserToChat(@Param('id') id: string, @Body('email') email: string) {
+    return this.chatService.addUserToChat(email, id);
+  }
+
+  @Delete(':id/users/:userId')
+  async removeUserWithChat(
+    @Param('id') id: string,
+    @Param('userId') userId: string,
+  ) {
+    return this.chatService.removeUserWithChat(userId, id);
+  }
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from './types/user.types';
+import { User as UserDoc } from './user.model';
 import { USER_DOCUMENT_NAME } from './user.constants';
 import { UserDocument } from './user.model';
 
@@ -17,7 +18,7 @@ export class UserService {
     });
   }
 
-  async findByUserEmail(email: string) {
+  async findByUserEmail(email: string): Promise<UserDoc> {
     return this.userModel.findOne({ email });
   }
 }

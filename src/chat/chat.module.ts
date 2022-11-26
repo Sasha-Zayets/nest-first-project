@@ -6,9 +6,11 @@ import { ChatSchema } from './models/chat.model';
 import { ChatController } from './chat.controller';
 import { AuthorGuard } from './author.guard';
 import { CHAT_DOCUMENT_NAME } from './chat.constants';
+import { UserModule } from 'src/user/user.module';
 
 @Module({
   imports: [
+    UserModule,
     MongooseModule.forFeature([
       { name: CHAT_DOCUMENT_NAME, schema: ChatSchema },
     ]),
