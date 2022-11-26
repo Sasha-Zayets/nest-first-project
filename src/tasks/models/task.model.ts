@@ -4,6 +4,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ObjectType, Field } from '@nestjs/graphql';
 import { Document } from 'mongoose';
 import { User } from 'src/user/user.model';
+import { USER_DOCUMENT_NAME } from 'src/user/user.constants';
 
 export type TaskDocument = Task & Document;
 
@@ -18,7 +19,11 @@ export class Task {
   title: string;
 
   @ApiProperty()
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'user' })
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: USER_DOCUMENT_NAME,
+  })
   user: User;
 
   @Field()

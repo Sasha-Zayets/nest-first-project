@@ -1,7 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import * as mongoose from 'mongoose';
 import { Document } from 'mongoose';
+import { USER_DOCUMENT_NAME } from 'src/user/user.constants';
 import { User } from 'src/user/user.model';
-import { Message } from './message.model';
 
 export type ChatDocument = Chat & Document;
 
@@ -9,11 +10,18 @@ export type ChatDocument = Chat & Document;
 export class Chat {
   _id: string;
 
-  @Prop({ type: Array, required: true })
-  users: User[];
+  @Prop({ type: String, required: true, unique: true })
+  name: string;
+
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    name: USER_DOCUMENT_NAME,
+  })
+  author: User;
 
   @Prop({ type: Array, required: true })
-  messages: Message[];
+  users: User[];
 }
 
 export const ChatSchema = SchemaFactory.createForClass(Chat);

@@ -1,3 +1,4 @@
+import { Request } from 'express';
 import {
   Controller,
   Get,
@@ -7,6 +8,7 @@ import {
   Put,
   Param,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -20,6 +22,7 @@ import { CreateTaskDto } from './dto/create.task.dto';
 import { UpdateTaskDto } from './dto/edit.task.dto';
 import IdMongoDbParams from 'src/utils/validation/idMongoDbParams';
 import { Task } from './models/task.model';
+import { RequestWithUser } from 'src/user/types/requestWithUser.interface';
 
 @ApiTags('tasks')
 @ApiBearerAuth()
@@ -39,8 +42,8 @@ export class TasksController {
   @ApiResponse({ status: 200, description: 'Create new Task', type: Task })
   @UseGuards(JwtAuthGuard)
   @Post('')
-  async createTask(@Body() task: CreateTaskDto) {
-    return this.tasksService.createTask(task);
+  async createTask(@Body() task: CreateTaskDto, @Req() req: RequestWithUser) {
+    return this.tasksService.createTask(task, req.user);
   }
 
   @ApiOperation({ summary: 'Update task' })

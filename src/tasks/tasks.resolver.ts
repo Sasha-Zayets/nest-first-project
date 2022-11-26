@@ -4,8 +4,9 @@ import { TasksService } from './tasks.service';
 import { CreateTaskInput } from './inputs/create.task.input';
 import { UpdateTaskInput } from './inputs/update.task.input';
 import { RemoveTask } from './types/remove.task.response';
-import { UseGuards } from '@nestjs/common';
+import { Req, UseGuards } from '@nestjs/common';
 import { GraphqlJwtAuthGuard } from 'src/auth/graphql-jwt.guard';
+import { RequestWithUser } from 'src/user/types/requestWithUser.interface';
 
 @Resolver(() => Task)
 export class TasksResolver {
@@ -19,8 +20,11 @@ export class TasksResolver {
 
   @Mutation(() => Task)
   @UseGuards(GraphqlJwtAuthGuard)
-  async createTask(@Args('task') task: CreateTaskInput) {
-    return this.tasksService.createTask(task);
+  async createTask(
+    @Args('task') task: CreateTaskInput,
+    @Req() req: RequestWithUser,
+  ) {
+    return this.tasksService.createTask(task, req.user);
   }
 
   @Mutation(() => Task)
